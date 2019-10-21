@@ -1,0 +1,514 @@
+  [1m[35m (1.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dj_mixr_db_development"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dj_mixr_db_test"[0m
+  [1m[35m (248.3ms)[0m  [1m[35mCREATE DATABASE "dj_mixr_db_development" ENCODING = 'unicode'[0m
+  [1m[35m (115.6ms)[0m  [1m[35mCREATE DATABASE "dj_mixr_db_test" ENCODING = 'unicode'[0m
+  [1m[35m (19.7ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (6.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(7738017215753708310)[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Migrating to CreateUsers (20191021154729)
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (8.8ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "email" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mprimary::SchemaMigration Create (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20191021154729"]]
+  [1m[35m (0.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateActiveStorageTables (20191021154821)
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (7.8ms)[0m  [1m[35mCREATE TABLE "active_storage_blobs" ("id" bigserial primary key, "key" character varying NOT NULL, "filename" character varying NOT NULL, "content_type" character varying, "metadata" text, "byte_size" bigint NOT NULL, "checksum" character varying NOT NULL, "created_at" timestamp NOT NULL)[0m
+  [1m[35m (2.0ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_active_storage_blobs_on_key" ON "active_storage_blobs"  ("key")[0m
+  [1m[35m (20.7ms)[0m  [1m[35mCREATE TABLE "active_storage_attachments" ("id" bigserial primary key, "name" character varying NOT NULL, "record_type" character varying NOT NULL, "record_id" bigint NOT NULL, "blob_id" bigint NOT NULL, "created_at" timestamp NOT NULL, CONSTRAINT "fk_rails_c3b3935057"
+FOREIGN KEY ("blob_id")
+  REFERENCES "active_storage_blobs" ("id")
+)[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE  INDEX  "index_active_storage_attachments_on_blob_id" ON "active_storage_attachments"  ("blob_id")[0m
+  [1m[35m (2.5ms)[0m  [1m[35mCREATE UNIQUE INDEX  "index_active_storage_attachments_uniqueness" ON "active_storage_attachments"  ("record_type", "record_id", "name", "blob_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20191021154821"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSongs (20191021154932)
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (21.9ms)[0m  [1m[35mCREATE TABLE "songs" ("id" bigserial primary key, "name" character varying, "genre" character varying, "artist" character varying, "user_id" bigint, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE  INDEX  "index_songs_on_user_id" ON "songs"  ("user_id")[0m
+  [1m[36mprimary::SchemaMigration Create (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20191021154932"]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.3ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2019-10-21 15:57:15.469153"], ["updated_at", "2019-10-21 15:57:15.469153"]]
+  [1m[35m (1.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT pg_advisory_unlock(7738017215753708310)[0m
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Started POST "/songs" for ::1 at 2019-10-21 11:44:13 -0500
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SongsController#create as */*
+  Parameters: {"file"=>#<ActionDispatch::Http::UploadedFile:0x00007f8973ac4f00 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-11079-1psfisu.mp3>, @original_filename="Ismistik - Linked Modules (Original Mix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"file\"; filename=\"Ismistik - Linked Modules (Original Mix).mp3\"\r\nContent-Type: audio/mp3\r\n">}
+Completed 200 OK in 1ms (Views: 0.6ms | ActiveRecord: 0.0ms | Allocations: 337)
+
+
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Create (2.5ms)[0m  [1m[32mINSERT INTO "users" ("email", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["email", "her@shedaddy.com"], ["created_at", "2019-10-21 16:45:26.899518"], ["updated_at", "2019-10-21 16:45:26.899518"]]
+  [1m[35m (0.5ms)[0m  [1m[35mCOMMIT[0m
+Started POST "/songs" for ::1 at 2019-10-21 11:59:00 -0500
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+SyntaxError (/Users/shedaddy/Development/code/mod_3/project-mode/dj-browsify-backend/app/controllers/songs_controller.rb:16: syntax error, unexpected '}', expecting =>
+...rs: {song.errors.full_messages}}
+...                              ^
+/Users/shedaddy/Development/code/mod_3/project-mode/dj-browsify-backend/app/controllers/songs_controller.rb:28: syntax error, unexpected end-of-input, expecting end):
+  
+app/controllers/songs_controller.rb:16: syntax error, unexpected '}', expecting =>
+app/controllers/songs_controller.rb:28: syntax error, unexpected end-of-input, expecting end
+app/controllers/songs_controller.rb:16: syntax error, unexpected '}', expecting =>
+app/controllers/songs_controller.rb:28: syntax error, unexpected end-of-input, expecting end
+Started POST "/songs" for ::1 at 2019-10-21 12:00:54 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007feb36c4ae18 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-12670-y607t4.mp3>, @original_filename="Claude Young, Takasi Nakajima - Rapture (Original Mix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Claude Young, Takasi Nakajima - Rapture (Original Mix).mp3\"\r\nContent-Type: audio/mp3\r\n">}
+  [1m[36mUser Load (2.1ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:7:in `create'
+Completed 500 Internal Server Error in 235ms (ActiveRecord: 28.9ms | Allocations: 15707)
+
+
+  
+NoMethodError (undefined method `audio_file' for #<Song:0x00007feb36b7e778>):
+  
+app/controllers/songs_controller.rb:11:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 12:01:46 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007feb3529eac8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-12670-1kc2pak.mp3>, @original_filename="Jeff Mills - Black Is The Number (Original Mix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Jeff Mills - Black Is The Number (Original Mix).mp3\"\r\nContent-Type: audio/mp3\r\n">}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:7:in `create'
+  [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mSong Create (6.2ms)[0m  [1m[32mINSERT INTO "songs" ("name", "genre", "artist", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "Jeff Mills - Black Is The Number (Original Mix).mp3"], ["genre", "placeholder"], ["artist", "placeholder"], ["user_id", 1], ["created_at", "2019-10-21 17:01:47.254066"], ["updated_at", "2019-10-21 17:01:47.254066"]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mActiveStorage::Blob Load (6.2ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" INNER JOIN "active_storage_attachments" ON "active_storage_blobs"."id" = "active_storage_attachments"."blob_id" WHERE "active_storage_attachments"."record_id" = $1 AND "active_storage_attachments"."record_type" = $2 AND "active_storage_attachments"."name" = $3 LIMIT $4[0m  [["record_id", 1], ["record_type", "Song"], ["name", "song_file"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mActiveStorage::Attachment Load (0.4ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = $1 AND "active_storage_attachments"."record_type" = $2 AND "active_storage_attachments"."name" = $3 LIMIT $4[0m  [["record_id", 1], ["record_type", "Song"], ["name", "song_file"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mActiveStorage::Blob Create (1.0ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "metadata", "byte_size", "checksum", "created_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["key", "gneplo5886ccmbk2m2653wo15kz4"], ["filename", "Jeff Mills - Black Is The Number (Original Mix).mp3"], ["content_type", "audio/mpeg"], ["metadata", "{\"identified\":true}"], ["byte_size", 13245375], ["checksum", "i+wcxfKt6iQ7Gd98u42fhw=="], ["created_at", "2019-10-21 17:01:47.671136"]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mActiveStorage::Attachment Create (5.8ms)[0m  [1m[32mINSERT INTO "active_storage_attachments" ("name", "record_type", "record_id", "blob_id", "created_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "song_file"], ["record_type", "Song"], ["record_id", 1], ["blob_id", 1], ["created_at", "2019-10-21 17:01:47.677252"]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[36mSong Update (4.3ms)[0m  [1m[33mUPDATE "songs" SET "updated_at" = $1 WHERE "songs"."id" = $2[0m  [["updated_at", "2019-10-21 17:01:47.690071"], ["id", 1]]
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+  [1m[35m (0.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/songs_controller.rb:13:in `create'
+[36m  Disk Storage (69.8ms) [0m[32mUploaded file to key: gneplo5886ccmbk2m2653wo15kz4 (checksum: i+wcxfKt6iQ7Gd98u42fhw==)[0m
+[ActiveJob] Enqueued ActiveStorage::AnalyzeJob (Job ID: a4539a20-1fe0-4d4c-81eb-5cb12aa71931) to Async(active_storage_analysis) with arguments: #<GlobalID:0x00007feb3a0a7cd8 @uri=#<URI::GID gid://dj-mixr-api/ActiveStorage::Blob/1>>
+Completed 200 OK in 685ms (Views: 0.5ms | ActiveRecord: 61.1ms | Allocations: 78529)
+
+
+  [1m[36mActiveStorage::Blob Load (1.1ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+[ActiveJob] [ActiveStorage::AnalyzeJob] [a4539a20-1fe0-4d4c-81eb-5cb12aa71931] Performing ActiveStorage::AnalyzeJob (Job ID: a4539a20-1fe0-4d4c-81eb-5cb12aa71931) from Async(active_storage_analysis) enqueued at 2019-10-21T17:01:47Z with arguments: #<GlobalID:0x00007feb35242138 @uri=#<URI::GID gid://dj-mixr-api/ActiveStorage::Blob/1>>
+[ActiveJob] [ActiveStorage::AnalyzeJob] [a4539a20-1fe0-4d4c-81eb-5cb12aa71931]   [1m[35m (0.4ms)[0m  [1m[35mBEGIN[0m
+[ActiveJob] [ActiveStorage::AnalyzeJob] [a4539a20-1fe0-4d4c-81eb-5cb12aa71931]   [1m[36mActiveStorage::Blob Update (0.6ms)[0m  [1m[33mUPDATE "active_storage_blobs" SET "metadata" = $1 WHERE "active_storage_blobs"."id" = $2[0m  [["metadata", "{\"identified\":true,\"analyzed\":true}"], ["id", 1]]
+[ActiveJob] [ActiveStorage::AnalyzeJob] [a4539a20-1fe0-4d4c-81eb-5cb12aa71931]   [1m[35m (0.4ms)[0m  [1m[35mCOMMIT[0m
+[ActiveJob] [ActiveStorage::AnalyzeJob] [a4539a20-1fe0-4d4c-81eb-5cb12aa71931] Performed ActiveStorage::AnalyzeJob (Job ID: a4539a20-1fe0-4d4c-81eb-5cb12aa71931) from Async(active_storage_analysis) in 25.97ms
+Started GET "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3" for ::1 at 2019-10-21 12:02:23 -0500
+Processing by ActiveStorage::BlobsController#show as MP3
+  Parameters: {"signed_id"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+  [1m[36mActiveStorage::Blob Load (0.6ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+[36m  Disk Storage (4.0ms) [0m[34mGenerated URL for file at key: gneplo5886ccmbk2m2653wo15kz4 (http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxNzowNzoyMy4xMzdaIiwicHVyIjoiYmxvYl9rZXkifX0=--be7b1684c7a9b376eb42e645aaebe9a3378bfe42/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3)[0m
+Redirected to http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxNzowNzoyMy4xMzdaIiwicHVyIjoiYmxvYl9rZXkifX0=--be7b1684c7a9b376eb42e645aaebe9a3378bfe42/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3
+Completed 302 Found in 12ms (ActiveRecord: 0.6ms | Allocations: 2150)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxNzowNzoyMy4xMzdaIiwicHVyIjoiYmxvYl9rZXkifX0=--be7b1684c7a9b376eb42e645aaebe9a3378bfe42/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3" for ::1 at 2019-10-21 12:02:23 -0500
+Processing by ActiveStorage::DiskController#show as MP3
+  Parameters: {"content_type"=>"audio/mpeg", "disposition"=>"attachment; filename=\"Jeff Mills - Black Is The Number %28Original Mix%29.mp3\"; filename*=UTF-8''Jeff%20Mills%20-%20Black%20Is%20The%20Number%20%28Original%20Mix%29.mp3", "encoded_key"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxNzowNzoyMy4xMzdaIiwicHVyIjoiYmxvYl9rZXkifX0=--be7b1684c7a9b376eb42e645aaebe9a3378bfe42", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+Completed 200 OK in 1ms (ActiveRecord: 0.0ms | Allocations: 224)
+
+
+Started GET "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3" for ::1 at 2019-10-21 12:56:55 -0500
+Processing by ActiveStorage::BlobsController#show as MP3
+  Parameters: {"signed_id"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+  [1m[36mActiveStorage::Blob Load (1.2ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+[36m  Disk Storage (1.0ms) [0m[34mGenerated URL for file at key: gneplo5886ccmbk2m2653wo15kz4 (http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMTo1NS45MzJaIiwicHVyIjoiYmxvYl9rZXkifX0=--782d01eb59ba6dfff8a45115a0679c2f0f1a74b8/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3)[0m
+Redirected to http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMTo1NS45MzJaIiwicHVyIjoiYmxvYl9rZXkifX0=--782d01eb59ba6dfff8a45115a0679c2f0f1a74b8/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3
+Completed 302 Found in 17ms (ActiveRecord: 4.5ms | Allocations: 1668)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMTo1NS45MzJaIiwicHVyIjoiYmxvYl9rZXkifX0=--782d01eb59ba6dfff8a45115a0679c2f0f1a74b8/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3" for ::1 at 2019-10-21 12:56:55 -0500
+Processing by ActiveStorage::DiskController#show as MP3
+  Parameters: {"content_type"=>"audio/mpeg", "disposition"=>"attachment; filename=\"Jeff Mills - Black Is The Number %28Original Mix%29.mp3\"; filename*=UTF-8''Jeff%20Mills%20-%20Black%20Is%20The%20Number%20%28Original%20Mix%29.mp3", "encoded_key"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMTo1NS45MzJaIiwicHVyIjoiYmxvYl9rZXkifX0=--782d01eb59ba6dfff8a45115a0679c2f0f1a74b8", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+Completed 200 OK in 2ms (ActiveRecord: 0.0ms | Allocations: 190)
+
+
+Started GET "/rails/active_storage/blobs/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20Original%20Mix.mp3" for ::1 at 2019-10-21 12:57:12 -0500
+Processing by ActiveStorage::BlobsController#show as MP3
+  Parameters: {"signed_id"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBCZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--2c704019ba3cdda8eb28ea5413b3f0b2d0016555", "filename"=>"Jeff Mills - Black Is The Number Original Mix"}
+  [1m[36mActiveStorage::Blob Load (0.5ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+[36m  Disk Storage (1.5ms) [0m[34mGenerated URL for file at key: gneplo5886ccmbk2m2653wo15kz4 (http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3)[0m
+Redirected to http://localhost:3001/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3
+Completed 302 Found in 6ms (ActiveRecord: 0.5ms | Allocations: 1562)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3" for ::1 at 2019-10-21 12:57:12 -0500
+Processing by ActiveStorage::DiskController#show as MP3
+  Parameters: {"content_type"=>"audio/mpeg", "disposition"=>"attachment; filename=\"Jeff Mills - Black Is The Number %28Original Mix%29.mp3\"; filename*=UTF-8''Jeff%20Mills%20-%20Black%20Is%20The%20Number%20%28Original%20Mix%29.mp3", "encoded_key"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+Completed 200 OK in 1ms (ActiveRecord: 0.0ms | Allocations: 190)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3" for ::1 at 2019-10-21 12:58:58 -0500
+Processing by ActiveStorage::DiskController#show as MP3
+  Parameters: {"content_type"=>"audio/mpeg", "disposition"=>"attachment; filename=\"Jeff Mills - Black Is The Number %28Original Mix%29.mp3\"; filename*=UTF-8''Jeff%20Mills%20-%20Black%20Is%20The%20Number%20%28Original%20Mix%29.mp3", "encoded_key"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+Completed 304 Not Modified in 1ms (ActiveRecord: 0.0ms | Allocations: 185)
+
+
+Started GET "/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a/Jeff%20Mills%20-%20Black%20Is%20The%20Number%20(Original%20Mix).mp3?content_type=audio%2Fmpeg&disposition=attachment%3B+filename%3D%22Jeff+Mills+-+Black+Is+The+Number+%2528Original+Mix%2529.mp3%22%3B+filename%2A%3DUTF-8%27%27Jeff%2520Mills%2520-%2520Black%2520Is%2520The%2520Number%2520%2528Original%2520Mix%2529.mp3" for ::1 at 2019-10-21 12:59:14 -0500
+Processing by ActiveStorage::DiskController#show as MP3
+  Parameters: {"content_type"=>"audio/mpeg", "disposition"=>"attachment; filename=\"Jeff Mills - Black Is The Number %28Original Mix%29.mp3\"; filename*=UTF-8''Jeff%20Mills%20-%20Black%20Is%20The%20Number%20%28Original%20Mix%29.mp3", "encoded_key"=>"eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDRG9JYTJWNVNTSWhaMjVsY0d4dk5UZzRObU5qYldKck1tMHlOalV6ZDI4eE5XdDZOQVk2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpQWFoaGRIUmhZMmh0Wlc1ME95Qm1hV3hsYm1GdFpUMGlTbVZtWmlCTmFXeHNjeUF0SUVKc1lXTnJJRWx6SUZSb1pTQk9kVzFpWlhJZ0pUSTRUM0pwWjJsdVlXd2dUV2w0SlRJNUxtMXdNeUk3SUdacGJHVnVZVzFsS2oxVlZFWXRPQ2NuU21WbVppVXlNRTFwYkd4ekpUSXdMU1V5TUVKc1lXTnJKVEl3U1hNbE1qQlVhR1VsTWpCT2RXMWlaWElsTWpBbE1qaFBjbWxuYVc1aGJDVXlNRTFwZUNVeU9TNXRjRE1HT3daVU9oRmpiMjUwWlc1MFgzUjVjR1ZKSWc5aGRXUnBieTl0Y0dWbkJqc0dWQT09IiwiZXhwIjoiMjAxOS0xMC0yMVQxODowMjoxMi4wMjdaIiwicHVyIjoiYmxvYl9rZXkifX0=--501cb46bf50fe4a573847cfe91364131db2d046a", "filename"=>"Jeff Mills - Black Is The Number (Original Mix)"}
+Completed 304 Not Modified in 1ms (ActiveRecord: 0.0ms | Allocations: 183)
+
+
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+Started GET "/songs/her" for ::1 at 2019-10-21 14:03:06 -0500
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+ActionController::RoutingError (No route matches [GET] "/songs/her"):
+  
+actionpack (6.0.0) lib/action_dispatch/middleware/debug_exceptions.rb:36:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (6.0.0) lib/rails/rack/logger.rb:38:in `call_app'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `block in tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (6.0.0) lib/active_support/tagged_logging.rb:80:in `tagged'
+railties (6.0.0) lib/rails/rack/logger.rb:26:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.7) lib/rack/runtime.rb:22:in `call'
+activesupport (6.0.0) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/static.rb:126:in `call'
+rack (2.0.7) lib/rack/sendfile.rb:111:in `call'
+actionpack (6.0.0) lib/action_dispatch/middleware/host_authorization.rb:83:in `call'
+rack-cors (1.0.3) lib/rack/cors.rb:95:in `call'
+railties (6.0.0) lib/rails/engine.rb:526:in `call'
+puma (3.12.1) lib/puma/configuration.rb:227:in `call'
+puma (3.12.1) lib/puma/server.rb:660:in `handle_request'
+puma (3.12.1) lib/puma/server.rb:474:in `process_client'
+puma (3.12.1) lib/puma/server.rb:334:in `block in run'
+puma (3.12.1) lib/puma/thread_pool.rb:135:in `block in spawn_thread'
+Started GET "/songs/her" for ::1 at 2019-10-21 14:03:43 -0500
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  
+SyntaxError (/Users/shedaddy/Development/code/mod_3/project-mode/dj-browsify-backend/app/controllers/songs_controller.rb:29: syntax error, unexpected ':', expecting '}'
+    user = User.find_by{email: params[:username]}
+                             ^
+/Users/shedaddy/Development/code/mod_3/project-mode/dj-browsify-backend/app/controllers/songs_controller.rb:29: syntax error, unexpected '}', expecting end
+...nd_by{email: params[:username]}
+...                              ^):
+  
+app/controllers/songs_controller.rb:29: syntax error, unexpected ':', expecting '}'
+app/controllers/songs_controller.rb:29: syntax error, unexpected '}', expecting end
+app/controllers/songs_controller.rb:29: syntax error, unexpected ':', expecting '}'
+app/controllers/songs_controller.rb:29: syntax error, unexpected '}', expecting end
+Started GET "/songs/her" for ::1 at 2019-10-21 14:04:24 -0500
+Processing by SongsController#get_by_user as */*
+  Parameters: {"username"=>"her"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "her"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:29:in `get_by_user'
+Completed 500 Internal Server Error in 13ms (ActiveRecord: 3.3ms | Allocations: 2969)
+
+
+  
+NoMethodError (undefined method `songs' for nil:NilClass):
+  
+app/controllers/songs_controller.rb:30:in `get_by_user'
+Started GET "/songs/her@shedaddy.com" for ::1 at 2019-10-21 14:04:50 -0500
+Processing by SongsController#get_by_user as 
+  Parameters: {"username"=>"her@shedaddy"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email" = $1 LIMIT $2[0m  [["email", "her@shedaddy"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:29:in `get_by_user'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.5ms | Allocations: 981)
+
+
+  
+NoMethodError (undefined method `songs' for nil:NilClass):
+  
+app/controllers/songs_controller.rb:30:in `get_by_user'
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" LIMIT $1[0m  [["LIMIT", 11]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" ORDER BY "users"."id" ASC LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSong Load (1.5ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."user_id" = $1 LIMIT $2[0m  [["user_id", 1], ["LIMIT", 11]]
+Started GET "/songs/her" for ::1 at 2019-10-21 14:08:17 -0500
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SongsController#get_by_user as */*
+  Parameters: {"username"=>"her"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/songs_controller.rb:30:in `get_by_user'
+Completed 500 Internal Server Error in 21ms (ActiveRecord: 8.6ms | Allocations: 5478)
+
+
+  
+NoMethodError (undefined method `include' for "her@shedaddy.com":String
+Did you mean?  include?):
+  
+app/controllers/songs_controller.rb:30:in `block in get_by_user'
+app/controllers/songs_controller.rb:30:in `get_by_user'
+Started GET "/songs/her" for ::1 at 2019-10-21 14:08:43 -0500
+Processing by SongsController#get_by_user as */*
+  Parameters: {"username"=>"her"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/controllers/songs_controller.rb:30:in `get_by_user'
+  [1m[36mSong Load (2.3ms)[0m  [1m[34mSELECT "songs".* FROM "songs" WHERE "songs"."user_id" = $1[0m  [["user_id", 1]]
+  ↳ app/controllers/songs_controller.rb:31:in `map'
+  [1m[36mActiveStorage::Attachment Load (1.9ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = $1 AND "active_storage_attachments"."record_type" = $2 AND "active_storage_attachments"."name" = $3 LIMIT $4[0m  [["record_id", 1], ["record_type", "Song"], ["name", "song_file"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:35:in `block in get_by_user'
+  [1m[36mActiveStorage::Blob Load (1.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:35:in `block in get_by_user'
+Completed 200 OK in 189ms (Views: 0.2ms | ActiveRecord: 42.4ms | Allocations: 29761)
+
+
+Started POST "/songs" for ::1 at 2019-10-21 15:25:18 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f1c3e9d8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-1l5j987.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"null"}
+  [1m[36mUser Load (1.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 45ms (ActiveRecord: 1.8ms | Allocations: 3942)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:26:21 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f1442bf8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-qeu50t.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"null"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.4ms | Allocations: 710)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:28:16 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f25e67d8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-1lwncde.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 6ms (ActiveRecord: 0.6ms | Allocations: 726)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:28:18 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f2b07c08 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-1tcv5xf.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.5ms | Allocations: 709)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:28:20 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f2c98810 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-7urxd3.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 2ms (ActiveRecord: 0.4ms | Allocations: 710)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:28:23 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f2b47830 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-qstv36.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.6ms | Allocations: 709)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:38:10 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f1446c58 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-1e5bu4w.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 4ms (ActiveRecord: 1.3ms | Allocations: 770)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:39:30 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f132cc78 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-n2tqgv.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.9ms | Allocations: 709)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:41:14 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f1cacd20 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-nekcmc.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 8ms (ActiveRecord: 0.7ms | Allocations: 726)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:41:36 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f23643e8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-1x4ixhe.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.4ms | Allocations: 709)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:46:12 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007fb7f1cacca8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-19759-6mv3cd.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 3ms (ActiveRecord: 0.4ms | Allocations: 709)
+
+
+  
+TypeError (no implicit conversion of nil into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:7:in `create'
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+Started POST "/songs" for ::1 at 2019-10-21 15:49:22 -0500
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007ffd09d8f050 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-27460-1p1rlfe.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 837ms (ActiveRecord: 19.7ms | Allocations: 80696)
+
+
+  
+NameError (undefined local variable or method `username' for #<SongsController:0x00007ffd09d84470>
+Did you mean?  user_path):
+  
+app/controllers/songs_controller.rb:11:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:51:01 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007ffd0a8cd868 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-27460-1a467cg.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs", "artist"=>"bugs", "genre"=>"bugs", "username"=>"her"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 610ms (ActiveRecord: 22.7ms | Allocations: 79416)
+
+
+  
+NameError (undefined local variable or method `username' for #<SongsController:0x00007ffd0e8db360>
+Did you mean?  user_path):
+  
+app/controllers/songs_controller.rb:11:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:51:52 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007ffd0a9311d8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-27460-qjq2yu.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs-name", "artist"=>"bugs-artist", "genre"=>"bugs-genre", "username"=>"her"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 237ms (ActiveRecord: 0.6ms | Allocations: 70947)
+
+
+  
+NameError (undefined local variable or method `username' for #<SongsController:0x00007ffd0a1b4888>
+Did you mean?  user_path):
+  
+app/controllers/songs_controller.rb:11:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:53:27 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007ffd0a386be8 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-27460-1ha77of.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs-name", "artist"=>"bugs-artist", "genre"=>"bugs-genre", "username"=>"her"}
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+  [1m[36mCACHE User Load (0.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+Completed 500 Internal Server Error in 68ms (ActiveRecord: 18.1ms | Allocations: 9708)
+
+
+  
+TypeError (no implicit conversion of User into String):
+  
+app/models/user.rb:6:in `include?'
+app/models/user.rb:6:in `block in get_by_username'
+app/models/user.rb:6:in `get_by_username'
+app/controllers/songs_controller.rb:11:in `create'
+Started POST "/songs" for ::1 at 2019-10-21 15:55:41 -0500
+Processing by SongsController#create as */*
+  Parameters: {"audio_file"=>#<ActionDispatch::Http::UploadedFile:0x00007ffd09e59788 @tempfile=#<Tempfile:/var/folders/p8/1qs2y58n3256lv23g5_vz5y40000gn/T/RackMultipart20191021-27460-1ib1gxu.mp3>, @original_filename="Will Saul - Bugs (Matt Karmil Remix).mp3", @content_type="audio/mp3", @headers="Content-Disposition: form-data; name=\"audio_file\"; filename=\"Will Saul - Bugs (Matt Karmil Remix).mp3\"\r\nContent-Type: audio/mp3\r\n">, "name"=>"bugs-name", "artist"=>"bugs-artist", "genre"=>"bugs-genre", "username"=>"her"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  ↳ app/models/user.rb:6:in `get_by_username'
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mSong Create (1.6ms)[0m  [1m[32mINSERT INTO "songs" ("name", "genre", "artist", "user_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["name", "bugs-name"], ["genre", "bugs-genre"], ["artist", "bugs-artist"], ["user_id", 1], ["created_at", "2019-10-21 20:55:42.240318"], ["updated_at", "2019-10-21 20:55:42.240318"]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mActiveStorage::Blob Load (2.0ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" INNER JOIN "active_storage_attachments" ON "active_storage_blobs"."id" = "active_storage_attachments"."blob_id" WHERE "active_storage_attachments"."record_id" = $1 AND "active_storage_attachments"."record_type" = $2 AND "active_storage_attachments"."name" = $3 LIMIT $4[0m  [["record_id", 2], ["record_type", "Song"], ["name", "song_file"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mActiveStorage::Attachment Load (0.4ms)[0m  [1m[34mSELECT "active_storage_attachments".* FROM "active_storage_attachments" WHERE "active_storage_attachments"."record_id" = $1 AND "active_storage_attachments"."record_type" = $2 AND "active_storage_attachments"."name" = $3 LIMIT $4[0m  [["record_id", 2], ["record_type", "Song"], ["name", "song_file"], ["LIMIT", 1]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mActiveStorage::Blob Create (0.7ms)[0m  [1m[32mINSERT INTO "active_storage_blobs" ("key", "filename", "content_type", "metadata", "byte_size", "checksum", "created_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["key", "pxjlvq8cpdceot59q2q5zkx3uacp"], ["filename", "Will Saul - Bugs (Matt Karmil Remix).mp3"], ["content_type", "audio/mpeg"], ["metadata", "{\"identified\":true}"], ["byte_size", 17613364], ["checksum", "NAqm6AEp4Sky5FMJkc/mPA=="], ["created_at", "2019-10-21 20:55:42.451723"]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mActiveStorage::Attachment Create (1.3ms)[0m  [1m[32mINSERT INTO "active_storage_attachments" ("name", "record_type", "record_id", "blob_id", "created_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["name", "song_file"], ["record_type", "Song"], ["record_id", 2], ["blob_id", 2], ["created_at", "2019-10-21 20:55:42.475887"]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[36mSong Update (0.7ms)[0m  [1m[33mUPDATE "songs" SET "updated_at" = $1 WHERE "songs"."id" = $2[0m  [["updated_at", "2019-10-21 20:55:42.480275"], ["id", 2]]
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+  [1m[35m (2.9ms)[0m  [1m[35mCOMMIT[0m
+  ↳ app/controllers/songs_controller.rb:14:in `create'
+[36m  Disk Storage (243.1ms) [0m[32mUploaded file to key: pxjlvq8cpdceot59q2q5zkx3uacp (checksum: NAqm6AEp4Sky5FMJkc/mPA==)[0m
+[ActiveJob] Enqueued ActiveStorage::AnalyzeJob (Job ID: 6c8559a4-47fb-479e-a795-e5bb3c2e38a5) to Async(active_storage_analysis) with arguments: #<GlobalID:0x00007ffd0d083858 @uri=#<URI::GID gid://dj-mixr-api/ActiveStorage::Blob/2>>
+Completed 200 OK in 612ms (Views: 0.2ms | ActiveRecord: 46.2ms | Allocations: 56145)
+
+
+  [1m[36mActiveStorage::Blob Load (0.5ms)[0m  [1m[34mSELECT "active_storage_blobs".* FROM "active_storage_blobs" WHERE "active_storage_blobs"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+[ActiveJob] [ActiveStorage::AnalyzeJob] [6c8559a4-47fb-479e-a795-e5bb3c2e38a5] Performing ActiveStorage::AnalyzeJob (Job ID: 6c8559a4-47fb-479e-a795-e5bb3c2e38a5) from Async(active_storage_analysis) enqueued at 2019-10-21T20:55:42Z with arguments: #<GlobalID:0x00007ffd0a464e20 @uri=#<URI::GID gid://dj-mixr-api/ActiveStorage::Blob/2>>
+[ActiveJob] [ActiveStorage::AnalyzeJob] [6c8559a4-47fb-479e-a795-e5bb3c2e38a5]   [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+[ActiveJob] [ActiveStorage::AnalyzeJob] [6c8559a4-47fb-479e-a795-e5bb3c2e38a5]   [1m[36mActiveStorage::Blob Update (0.9ms)[0m  [1m[33mUPDATE "active_storage_blobs" SET "metadata" = $1 WHERE "active_storage_blobs"."id" = $2[0m  [["metadata", "{\"identified\":true,\"analyzed\":true}"], ["id", 2]]
+[ActiveJob] [ActiveStorage::AnalyzeJob] [6c8559a4-47fb-479e-a795-e5bb3c2e38a5]   [1m[35m (2.2ms)[0m  [1m[35mCOMMIT[0m
+[ActiveJob] [ActiveStorage::AnalyzeJob] [6c8559a4-47fb-479e-a795-e5bb3c2e38a5] Performed ActiveStorage::AnalyzeJob (Job ID: 6c8559a4-47fb-479e-a795-e5bb3c2e38a5) from Async(active_storage_analysis) in 17.68ms
