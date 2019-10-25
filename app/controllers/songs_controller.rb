@@ -25,21 +25,30 @@ class SongsController < ApplicationController
 
   end
 
-
-  def show
-  end
-
   def destroy
+    id = params[:id]
+    song = Song.destroy(id)
+    render json: {
+        id: song.id,
+        name: song.name,
+        artist: song.artist,
+        genre: song.genre,
+        path: url_for(song.song_file)
+      }
   end
 
   def get_by_user
     # user = User.find_by(email: params[:username])
     user = User.get_by_username(params[:username])
     songData = user.songs.map {|song|
-      {name: song.name,
+      {
+        id: song.id,
+        name: song.name,
         artist: song.artist,
         genre: song.genre,
-        path: url_for(song.song_file)}}
+        path: url_for(song.song_file)
+      }
+    }
 
       render json: {message: 'success',data: songData }
   end

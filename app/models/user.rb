@@ -5,4 +5,5 @@ class User < ApplicationRecord
   def self.get_by_username(username)
     User.all.find{|user| user.email.include?(username)}
   end
+
 end
